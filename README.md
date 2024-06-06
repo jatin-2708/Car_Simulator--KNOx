@@ -43,6 +43,8 @@ To provide an immersive driving experience by integrating physical control eleme
 #include <Joystick.h>
 
 Joystick_ Joystick;
+/*Includes the Joystick library, which provides functions to emulate a joystick.
+Joystick_ Joystick;: Creates an instance of the Joystick class.*/
 
 // Variable
 int steeringwheel = A0;
@@ -64,10 +66,14 @@ int acceleratorValue = 0;
 int acceleratorValuebyte = 0;
 int curr_acceleratorValue;
 int prev_acceleratorValue=0;
+/*Defines the analog input pins for the potentiometers: A0 for steering wheel, A3 for brake, and A1 for accelerator.
+Initialises variables to store the current and previous readings of each potentiometer.*/
+
 
 void setup() {
   Joystick.begin();
 }
+/*Joystick.begin();: Initialises the joystick library, preparing it to send data to the computer.*/
 
 void loop() {
   
@@ -102,7 +108,13 @@ void loop() {
   }
   
   prev_steeringwheelValue=curr_steeringwheelValue;
-  delay(10); 
+  delay(10);
+
+  /*analogRead(steeringwheel): Reads the analog value from the steering wheel potentiometer.
+    steeringwheelValue = 0.2 * curr_steeringwheelValue + 0.8 * prev_steeringwheelValue;: Smooths the reading using a simple low-pass filter.
+    Maps the smoothed value to the joystick X-axis range (0-255), splitting the range into two parts to handle different sensitivity levels.
+    Uses constrain to ensure the mapped values are within the valid range.
+    Updates the joystick X-axis with Joystick.setXAxis.*/
 
   // Brake
   curr_brakeValue = analogRead(brake);
@@ -112,7 +124,12 @@ void loop() {
   int new_brakeValue=map(brakeValue,460,900,0,255);
   Joystick.setThrottle(new_brakeValue);
   prev_brakeValue=curr_brakeValue;
-  delay(10); 
+  delay(10);
+
+  /*Similar to the steering wheel, it reads and smooths the brake potentiometer value.
+    Maps the smoothed value to the joystick throttle range (0-255).
+    Updates the joystick throttle with Joystick.setThrottle.*/
+
 
   // Accelerator
   curr_acceleratorValue = analogRead(accelerator);
@@ -125,7 +142,13 @@ void loop() {
   prev_acceleratorValue=curr_acceleratorValue;
   Joystick.setYAxis(0);
   
-  delay(10); 
+  delay(10);
+
+  /*Reads and smooths the accelerator potentiometer value.
+    Maps the smoothed value to the joystick Z-axis range (0-255).
+    Updates the joystick Z-axis with Joystick.setZAxis.
+    Set the Y-axis to 0 with Joystick.setYAxis(0). This line might be redundant unless you have a specific reason to always set the Y-axis to 0.*/
+
 }
 ```
 ## Summary
