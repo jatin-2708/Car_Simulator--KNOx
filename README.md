@@ -1,4 +1,4 @@
-# Car Simulator Controlled via Arduino
+# Autotronics: Arduino Empowered Vehicular Simulation
 
 ## Project Overview
 
